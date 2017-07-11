@@ -10,13 +10,17 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/tweets.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/font-awesome.min.css" type="text/css" />
 
     <!-- External JS -->
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
 
     <!-- App JS -->
     <script type="text/javascript" src="/scripts/app.js"></script>
-
+    <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
+    <script type="text/javascript" src="/scripts/tweet-hover.js"></script>
   </head>
 
   <body>
@@ -29,8 +33,21 @@
 
     <!-- Page-specific (main) content here -->
     <main class="container">
-      <p>Yo!</p>
-      <p>What's up?</p>
+      <section class="new-tweet">
+        
+        <h2>Compose Tweet</h2>
+
+        <form action="/tweets" method="POST">
+          <textarea name="text" placeholder="What are you humming about?"></textarea>
+          <input id="submit-tweet" type="submit" value="Tweet">
+          <span class="counter">140</span>
+        </form>
+
+      </section>
+
+      <section id="tweets">
+        <!-- Tweets automatically added here -->
+      </section>
     </main>
 
   </body>

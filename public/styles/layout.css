@@ -19,13 +19,13 @@ body {
   color: #244751;
   background-color: #eee;
   font-family: 'Roboto Condensed', sans-serif;
-
 }
 
 main {
   width: 450px;
+  margin: 0 auto;
+  padding: 100px 0 10px;
   background-color: #fff;
-  margin: 140px auto 0;
 }
 
 /*
