@@ -50,3 +50,7 @@
 .tweet .hidden {
   display: none;
 }
+
+.tweet:hover .hidden {
+  display: inline;
+}

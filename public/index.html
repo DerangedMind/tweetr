@@ -20,7 +20,7 @@
     <!-- App JS -->
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
-    <script type="text/javascript" src="/scripts/tweet-hover.js"></script>
+    <script type="text/javascript" src="/scripts/compose-tweet.js"></script>
   </head>
 
   <body>
@@ -29,12 +29,12 @@
     <nav id="nav-bar">
       <img class="logo" src="/images/bird.png">
       <span class="header">Tweeter</span>
+      <button id="compose-btn"><span class="fa fa-edit fa-pull-left"></span><span>Compose</span></button>
     </nav>
 
     <!-- Page-specific (main) content here -->
     <main class="container">
-      <section class="new-tweet">
-        
+      <section class="new-tweet hidden">
         <h2>Compose Tweet</h2>
 
         <form action="/tweets" method="POST">

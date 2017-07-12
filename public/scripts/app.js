@@ -45,44 +45,44 @@ $(function () {
   // Handlers --------------------------------------------
   function onTweetSubmit(event) {
     event.preventDefault()
-    
+
+    // validate form is filled, but not over-filled
+    let $textarea = $(this).siblings('textarea')
+    if ($textarea.val().length <= 0) {
+      return alert('You didn\'t enter any text!')
+    }
+    if ($textarea.val().length >= 140) {
+      return alert('Too many characters!')
+    }
+
+    // create elements on page
     const $tweetContent = $(this).parent('form').serialize()
-    
+
+    // send POST to /tweets using AJAX
     $.ajax({
       url: `/tweets`,
       method: 'POST',
       data: $tweetContent,
     }).done(function (response) {
-        console.log('tweet post sent')
+        $('#tweets').prepend(createTweetElement(response))
+
     }).fail(function (jqXHR, textStatus) {
         console.log('tweet post fail')
     })
 
-    let tweet = createTweetData($tweetContent)
-    console.log($tweetContent)
-    $('#tweets').prepend(createTweetElement(tweet))
+    // empty textarea
+    $textarea.val("")
+    $('.new-tweet').slideToggle()
   }
 
-  function createTweetData(tweet) {
-    let newUser = {
-      "user": {
-      "name": "Noob Cyoob",
-      "avatars": {
-        "small":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_50.png",
-        "regular": "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1.png",
-        "large":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_200.png"
-      },
-      "handle": "@nublet"
-    },
-    "content": {
-      "text": tweet
-    },
-    "created_at": Date.now()
-    }
+  // <h2>Compose Tweet</h2>
 
-    data.push(newUser)
-    return newUser
-  }
+  //  <form action="/tweets" method="POST">
+  //    <textarea name="text" placeholder="What are you humming about?"></textarea>
+  //    <input id="submit-tweet" type="submit" value="Tweet">
+  //    <span class="counter">140</span>
+  //  </form>
+
 
   // HTML functions ------------------------------------
   function createTweetElement(tweet) {
@@ -123,16 +123,16 @@ $(function () {
     let $hiddenActions = $('<span>', {
       'class': 'tweet-actions hidden'
     })
+    let $flag = $('<span>', {
+      'class': 'fa fa-flag fa-pull-left'
+    })
     let $heart = $('<span>', {
       'class': 'fa fa-heart fa-pull-left'
     })
-    let $repeat = $('<span>', {
-      'class': 'fa fa-repeat fa-pull-left'
+    let $refresh = $('<span>', {
+      'class': 'fa fa-refresh fa-pull-left'
     })
-    let $trash = $('<span>', {
-      'class': 'fa fa-trash fa-pull-left'
-    })
-    $hiddenActions.append($heart, $repeat, $trash)
+    $hiddenActions.append($flag, $heart, $refresh)
 
     $footer.append($timestamp, $hiddenActions)
     
@@ -141,7 +141,7 @@ $(function () {
   }  
 
   function renderTweets(tweets) {
-    
+    tweets = tweets.reverse()
     tweets.forEach(function (tweet) {
       $('#tweets').append(createTweetElement(tweet))
     })
