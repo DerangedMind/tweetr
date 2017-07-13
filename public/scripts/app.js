@@ -1,19 +1,13 @@
-/*
- * Client-side JS logic goes here
- * jQuery is already loaded
- * Reminder: Use (and do all your DOM work in) jQuery's document ready function
- */
 'use strict'
 
-// Test / driver code (temporary). Eventually will get this from the server.
-// Fake data taken from tweets.json
-
+// Returns how long ago the time was
 function timeSince(date) {
+  // Find difference between now and time of posting
   date = new Date(Date.now() - date)
-  var seconds = Math.floor((new Date() - date) / 1000);
+  var seconds = Math.floor(date / 1000);
 
   // Seconds are divided by years, months, days, hours, minutes...
-  var interval = Math.floor(seconds / 31536000);
+  var interval = Math.floor(seconds / 31449600);
   if (interval > 1) {
     return interval + " years";
   }
@@ -39,15 +33,21 @@ function timeSince(date) {
 // On document ready
 $(function () {
 
-  // Event handlers
+  // Assign handlers
   $('#submit-tweet').on('click', onTweetSubmit) 
+  $('.new-tweet textarea').keydown(function(e){
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
+    onTweetSubmit(e)
+    }
+  })
 
   // Handlers --------------------------------------------
-  function onTweetSubmit(event) {
-    event.preventDefault()
-
+  function onTweetSubmit(e) {
+    e.preventDefault()
+    console.log($(this))
+    let $textarea = $('#submit-tweet').siblings('textarea')
+    
     // validate form is filled, but not over-filled
-    let $textarea = $(this).siblings('textarea')
     if ($textarea.val().length <= 0) {
       return alert('You didn\'t enter any text!')
     }
@@ -55,8 +55,8 @@ $(function () {
       return alert('Too many characters!')
     }
 
-    // create elements on page
-    const $tweetContent = $(this).parent('form').serialize()
+    // serialize tweet contents
+    const $tweetContent = $textarea.parent('form').serialize()
 
     // send POST to /tweets using AJAX
     $.ajax({
@@ -75,16 +75,7 @@ $(function () {
     $('.new-tweet').slideToggle()
   }
 
-  // <h2>Compose Tweet</h2>
-
-  //  <form action="/tweets" method="POST">
-  //    <textarea name="text" placeholder="What are you humming about?"></textarea>
-  //    <input id="submit-tweet" type="submit" value="Tweet">
-  //    <span class="counter">140</span>
-  //  </form>
-
-
-  // HTML functions ------------------------------------
+  // Create individual tweet ------------------------------------
   function createTweetElement(tweet) {
     let $article = $('<article>', {
       'class': 'tweet'
@@ -92,6 +83,7 @@ $(function () {
     
     // Create header section ----------
     let $header = $('<header>')
+    
     let $img = $('<img>', { 
       'class': 'avatar', 
       'src': tweet.user.avatars.small 
@@ -114,6 +106,7 @@ $(function () {
 
     // Create footer contents -----------
     let $footer = $('<footer>')
+    
     let $timestamp = $('<p>', { 
       'class': 'timestamp',
       'text': `${timeSince(tweet.created_at)} ago`
@@ -123,6 +116,7 @@ $(function () {
     let $hiddenActions = $('<span>', {
       'class': 'tweet-actions hidden'
     })
+    
     let $flag = $('<span>', {
       'class': 'fa fa-flag fa-pull-left'
     })
@@ -132,6 +126,7 @@ $(function () {
     let $refresh = $('<span>', {
       'class': 'fa fa-refresh fa-pull-left'
     })
+    
     $hiddenActions.append($flag, $heart, $refresh)
 
     $footer.append($timestamp, $hiddenActions)
@@ -140,6 +135,7 @@ $(function () {
     return $article.append($header, $content, $footer)
   }  
 
+  // Loop to create each tweet
   function renderTweets(tweets) {
     tweets = tweets.reverse()
     tweets.forEach(function (tweet) {
@@ -147,7 +143,7 @@ $(function () {
     })
   }
 
-  // DB functions ------------------------------------
+  // loadTweets from DB ------------------------------------
   function loadTweets() {
     $.ajax({
       url: `/tweets`,

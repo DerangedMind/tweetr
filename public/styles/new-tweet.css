@@ -14,6 +14,24 @@
 .new-tweet textarea {
   width: 100%;
   padding: 5px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  outline: none;
+}
+
+#submit-tweet {
+  width: 80px;
+  height: 30px;
+  background-color: #00c087;
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: inset -1px -1px -1px;
+}
+
+#submit-tweet:hover, #submit-tweet:focus {
+  background-color: #44f587;
+  outline: none;
+  box-shadow: inset 1px 1px 1px, inset 0 0 0, 1px 1px 1px
 }
 
 .new-tweet .counter {
