@@ -4,22 +4,31 @@
   border: 2px #ddd solid;
   border-radius: 5px;
   background-color: #eee;
-  display: none; }
-  .new-tweet h2 {
+  display: none;
+
+  h2 {
     margin-top: 10px;
-    border-bottom: 1px solid black; }
-  .new-tweet textarea {
+    border-bottom: 1px solid black;
+  }
+
+  textarea {
     width: 100%;
     padding: 5px;
     border: 1px solid #bbb;
     border-radius: 5px;
-    outline: none; }
-  .new-tweet .counter {
+    outline: none;
+  }
+
+  .counter {
     float: right;
     padding-right: 10px;
-    font-style: italic; }
-  .new-tweet .counter.over-limit {
-    color: red; }
+    font-style: italic;
+  }
+
+  .counter.over-limit {
+    color: red;
+  }
+}
 
 #submit-tweet {
   width: 80px;
@@ -27,10 +36,12 @@
   background-color: #00c087;
   border: 1px solid #999;
   border-radius: 5px;
-  box-shadow: inset -1px -1px -1px; }
-  #submit-tweet:hover, #submit-tweet:focus {
+  box-shadow: inset -1px -1px -1px;
+
+  &:hover, &:focus {
     background-color: #44f587;
     outline: none;
-    box-shadow: inset 1px 1px 1px, inset 0 0 0, 1px 1px 1px; }
+    box-shadow: inset 1px 1px 1px, inset 0 0 0, 1px 1px 1px
+  }
 
-/*# sourceMappingURL=new-tweet.css.map */
+}
