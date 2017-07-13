@@ -57,3 +57,7 @@ $tweetFrameClr: #aaa;
     display: inline;
   }
 }
+
+.tweet.liked .fa-heart {
+    color: red;
+  }

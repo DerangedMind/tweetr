@@ -4,7 +4,7 @@
 const simulateDelay = require("./util/simulate-delay");
 
 // Defines helper functions for saving and getting tweets, using the database `db`
-module.exports = function makeDataHelpers(db) {
+module.exports = function makeDataHelpers(db, ObjectID) {
   return {
 
     // Saves a tweet to `db`
@@ -22,6 +22,37 @@ module.exports = function makeDataHelpers(db) {
       db.collection('tweets').find().toArray().then(function (tweets) {
         callback(null, tweets)
       });
+    },
+
+    addLike: function(tweetID, callback) {
+      let objID = new ObjectID(tweetID)
+      console.log(objID)
+
+      db.collection('tweets')
+        .update(
+          { '_id': objID },
+          { $inc: { likes: 1 } }
+        )
+        .then(function (tweet) {callback(null, tweet)
+        })
+        .catch(function (err) {
+          console.log(err.message)
+        })
+    },
+    removeLike: function(tweetID, callback) {
+      let objID = new ObjectID(tweetID)
+      console.log(objID)
+      db.collection('tweets')
+        .update( 
+          { '_id': objID },
+          { $inc: { likes: -1 } }
+        )
+        .then(function () {
+          callback(null)
+        })
+        .catch(function () {
+          console.log("invalid")
+        })
     }
   };
 }

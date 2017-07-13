@@ -44,7 +44,7 @@ $(function () {
   // Handlers --------------------------------------------
   function onTweetSubmit(e) {
     e.preventDefault()
-    console.log($(this))
+
     let $textarea = $('#submit-tweet').siblings('textarea')
     
     // validate form is filled, but not over-filled
@@ -75,10 +75,41 @@ $(function () {
     $('.new-tweet').slideToggle()
   }
 
+  function toggleLike(tweet) {
+    let tweetID = tweet.data('tweetId')
+    
+    if (!tweet.hasClass('liked')) {
+      console.log('isn\'t liked')
+      $.ajax({
+        url: `/tweets/${tweetID}`,
+        method: 'POST',
+        data: tweetID 
+      }).done(function (response) {
+        if (response) {
+          console.log(response)
+          tweet.toggleClass('liked')
+        }
+      })
+    }
+    else {
+      $.ajax({
+        url: `/tweets/${tweetID}/unlike`,
+        method: 'POST',
+        data: tweetID
+      }).done(function (response) {
+        if (response) {
+          console.log('done')
+          tweet.toggleClass('liked')
+        }
+      })
+    }
+  }
+
   // Create individual tweet ------------------------------------
   function createTweetElement(tweet) {
     let $article = $('<article>', {
-      'class': 'tweet'
+      'class': 'tweet',
+      'data-tweet-id': tweet._id
     })
     
     // Create header section ----------
@@ -120,27 +151,35 @@ $(function () {
     let $flag = $('<span>', {
       'class': 'fa fa-flag fa-pull-left'
     })
-    let $heart = $('<span>', {
-      'class': 'fa fa-heart fa-pull-left'
-    })
     let $refresh = $('<span>', {
       'class': 'fa fa-refresh fa-pull-left'
     })
-    
-    $hiddenActions.append($flag, $heart, $refresh)
+    let $heart = $('<span>', {
+      'class': 'fa fa-heart fa-pull-left'
+    })
 
+    
+    $heart.on('click', function(e) {
+      toggleLike($(this).parents('article'))
+    })
+
+    $hiddenActions.append($flag, $refresh, $heart)
     $footer.append($timestamp, $hiddenActions)
+    $article.append($header, $content, $footer)
+
     
     // Append all parts of tweet to <article> and return
-    return $article.append($header, $content, $footer)
+    return $article
   }  
 
   // Loop to create each tweet
   function renderTweets(tweets) {
     tweets = tweets.reverse()
     tweets.forEach(function (tweet) {
-      $('#tweets').append(createTweetElement(tweet))
+      let tweetHTML= $('#tweets').append(createTweetElement(tweet))
     })
+
+    
   }
 
   // loadTweets from DB ------------------------------------
