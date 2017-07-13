@@ -10,7 +10,7 @@ Tweeter was initiated as a project with Lighthouse Labs. Tweeter offers the abil
 
 ## Screenshots
 
-
+!["tweetr example"](https://github.com/DerangedMind/tweetr/blob/master/docs/Tweetr.png?raw=true)
 
 
 ## Dependencies
