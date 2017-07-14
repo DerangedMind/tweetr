@@ -33,8 +33,7 @@ module.exports = function makeDataHelpers(db, ObjectID) {
           { '_id': objID },
           { $inc: { likes: 1 } }
         )
-        .then(function (tweet) {callback(null, tweet)
-        })
+        .then(function (response) { callback(null, response) })
         .catch(function (err) {
           console.log(err.message)
         })
@@ -42,16 +41,15 @@ module.exports = function makeDataHelpers(db, ObjectID) {
     removeLike: function(tweetID, callback) {
       let objID = new ObjectID(tweetID)
       console.log(objID)
+      
       db.collection('tweets')
         .update( 
           { '_id': objID },
           { $inc: { likes: -1 } }
         )
-        .then(function () {
-          callback(null)
-        })
-        .catch(function () {
-          console.log("invalid")
+        .then(function (response) { callback(null, response) })
+        .catch(function (err) {
+          console.log(err.message)
         })
     }
   };

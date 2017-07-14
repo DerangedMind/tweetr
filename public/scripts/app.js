@@ -77,9 +77,9 @@ $(function () {
 
   function toggleLike(tweet) {
     let tweetID = tweet.data('tweetId')
+    let tweetCount = Number(tweet.find('.fa-heart span').text())
     
     if (!tweet.hasClass('liked')) {
-      console.log('isn\'t liked')
       $.ajax({
         url: `/tweets/${tweetID}`,
         method: 'POST',
@@ -88,6 +88,7 @@ $(function () {
         if (response) {
           console.log(response)
           tweet.toggleClass('liked')
+          tweet.find('.fa-heart span').text(tweetCount + 1)
         }
       })
     }
@@ -98,11 +99,16 @@ $(function () {
         data: tweetID
       }).done(function (response) {
         if (response) {
-          console.log('done')
+          console.log(response)
           tweet.toggleClass('liked')
+          tweet.find('.fa-heart span').text(tweetCount - 1)
         }
       })
     }
+  }
+
+  function adjustLikeCount(num) {
+
   }
 
   // Create individual tweet ------------------------------------
@@ -156,7 +162,7 @@ $(function () {
     })
     let $heart = $('<span>', {
       'class': 'fa fa-heart fa-pull-left'
-    })
+    }).append(`<span> ${tweet.likes}</span>`)
 
     
     $heart.on('click', function(e) {

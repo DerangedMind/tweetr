@@ -43,23 +43,23 @@ module.exports = function(DataHelpers) {
   });
 
   tweetsRoutes.post("/:id/unlike", function(req, res) {
-    DataHelpers.removeLike(req.params.id, (err) => {
+    DataHelpers.removeLike(req.params.id, (err, likeCount) => {
       if (err) {
         res.status(500).json({ error: err.message })
       }
       else {
-        res.status(201).send(true)
+        res.status(201).send(likeCount)
       }
     })
   })
 
   tweetsRoutes.post("/:id", function(req, res) {
-    DataHelpers.addLike(req.params.id, (err, tweets) => {
+    DataHelpers.addLike(req.params.id, (err, likeCount) => {
       if (err) {
         res.status(500).json({ error: err.message })
       }
       else {
-        res.status(201).send(tweets)
+        res.status(201).send(likeCount)
       }
     })
   })
