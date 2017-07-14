@@ -9,7 +9,7 @@ const {MongoClient} = require('mongodb')
 const app           = express()
 const ObjectId      = require('mongodb').ObjectID
 
-const MONGODB_URI = 'mongodb://localhost:27017/tweeter'
+const MONGODB_URI = 'mongodb://https://supermarche-madame-47422.herokuapp.com/:27017/tweeter'
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
