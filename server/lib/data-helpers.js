@@ -26,7 +26,6 @@ module.exports = function makeDataHelpers(db, ObjectID) {
 
     addLike: function(tweetID, callback) {
       let objID = new ObjectID(tweetID)
-      console.log(objID)
 
       db.collection('tweets')
         .update(
@@ -40,7 +39,6 @@ module.exports = function makeDataHelpers(db, ObjectID) {
     },
     removeLike: function(tweetID, callback) {
       let objID = new ObjectID(tweetID)
-      console.log(objID)
       
       db.collection('tweets')
         .update( 

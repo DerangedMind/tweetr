@@ -78,7 +78,7 @@ $(function () {
   function toggleLike(tweet) {
     let tweetID = tweet.data('tweetId')
     let tweetCount = Number(tweet.find('.fa-heart span').text())
-    
+    tweetCount = tweetCount ? tweetCount : 0
     if (!tweet.hasClass('liked')) {
       $.ajax({
         url: `/tweets/${tweetID}`,
