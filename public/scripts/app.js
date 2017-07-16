@@ -107,10 +107,6 @@ $(function () {
     }
   }
 
-  function adjustLikeCount(num) {
-
-  }
-
   // Create individual tweet ------------------------------------
   function createTweetElement(tweet) {
     let $article = $('<article>', {
